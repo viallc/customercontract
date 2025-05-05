@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contract Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4" style="background-color: #0a0a0a;">
+  <div class="container shadow rounded p-4" style="max-width: 700px; margin-top: 30px; background: #111; color: #fff;">
+    <div class="text-center mb-4">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Company Logo" style="height: 100px; margin-bottom: 10px;">
+      <h2 class="mb-2" style="font-weight: 700; letter-spacing: 1px; color: #f3f6f7;">Contract Form</h2>
+      <hr class="mb-4" style="border-color: #f3f8f8;">
+    </div>
+
+    <form method="POST">
+      <!-- Company Information -->
+      <h4 class="mt-4 mb-3" style="color: #f5f7f8;">Company Information</h4>
+      <div class="mb-3">
+        <label for="company_name" class="form-label">Company Name</label>
+        <input type="text" class="form-control" id="company_name" name="company_name" readonly
+               value="{{ prefill['company_name'] if prefill['company_name'] is defined else '' }}">
+      </div>
+      <div class="mb-3">
+        <label for="property_address" class="form-label">Property Address</label>
+        <input type="text" class="form-control" id="property_address" name="property_address" readonly
+               value="{{ prefill['property_address'] if prefill['property_address'] is defined else '' }}">
+      </div>
+
+      <!-- Owner Information -->
+      <h4 class="mt-4 mb-3" style="color: #fcfdff;">Building Owner</h4>
+      <div class="mb-3">
+        <label for="owner_name" class="form-label">Owner Name</label>
+        <input type="text" class="form-control" id="owner_name" name="owner_name" {% if is_client %}readonly{% endif %}
+               value="{{ prefill['owner_name'] if prefill['owner_name'] is defined else '' }}">
+      </div>
+      <div class="mb-3">
+        <label for="owner_email" class="form-label">Owner Email</label>
+        <input type="email" class="form-control" id="owner_email" name="owner_email" {% if is_client %}readonly{% endif %}
+               value="{{ prefill['owner_email'] if prefill['owner_email'] is defined else '' }}">
+      </div>
+      <div class="mb-3">
+        <label for="owner_phone" class="form-label">Owner Phone</label>
+        <input type="tel" class="form-control" id="owner_phone" name="owner_phone" {% if is_client %}readonly{% endif %}
+               value="{{ prefill['owner_phone'] if prefill['owner_phone'] is defined else '' }}">
+      </div>
+
+      <!-- Point of Contact -->
+      <h4 class="mt-4 mb-3" style="color: #f2f5f8;">Point of Contact</h4>
+      <div class="mb-3">
+        <label for="point_of_contact" class="form-label">Point of Contact Name</label>
+        <input type="text" class="form-control" id="point_of_contact" name="point_of_contact" readonly
+               value="{{ prefill['point_of_contact'] if prefill['point_of_contact'] is defined else '' }}">
+      </div>
+      <div class="mb-3">
+        <label for="point_of_contact_phone" class="form-label">Point of Contact Phone</label>
+        <input type="tel" class="form-control" id="point_of_contact_phone" name="point_of_contact_phone" readonly
+               value="{{ prefill['point_of_contact_phone'] if prefill['point_of_contact_phone'] is defined else '' }}">
+      </div>
+      <div class="mb-3">
+        <label for="point_of_contact_email" class="form-label">Point of Contact Email</label>
+        <input type="email" class="form-control" id="point_of_contact_email" name="point_of_contact_email" readonly
+               value="{{ prefill['point_of_contact_email'] if prefill['point_of_contact_email'] is defined else '' }}">
+      </div>
+
+      <!-- Representative Info -->
+      <h4 class="mt-4 mb-3" style="color: #e0f7fa;">Representative Info</h4>
+      <div class="mb-3">
+        <label for="rep_name" class="form-label">Representative Name</label>
+        <input type="text" class="form-control" id="rep_name" name="rep_name" {% if is_client %}readonly{% endif %}
+               value="{{ prefill['rep_name'] if prefill['rep_name'] is defined else '' }}">
+      </div>
+      <div class="mb-3">
+        <label for="rep_phone" class="form-label">Representative Phone</label>
+        <input type="tel" class="form-control" id="rep_phone" name="rep_phone" {% if is_client %}readonly{% endif %}
+               value="{{ prefill['rep_phone'] if prefill['rep_phone'] is defined else '' }}">
+      </div>
+      <div class="mb-3">
+        <label for="rep_email" class="form-label">Representative Email</label>
+        <input type="email" class="form-control" id="rep_email" name="rep_email" {% if is_client %}readonly{% endif %}
+               value="{{ prefill['rep_email'] if prefill['rep_email'] is defined else '' }}">
+      </div>
+
+      <!-- Firmas -->
+      <h4 class="mt-4 mb-3" style="color: #00bcd4;">Signatures</h4>
+      <div class="row mb-3 align-items-center">
+        <div class="col-md-6 text-start">
+          <label class="form-label">Seller Signature</label>
+          <div class="d-flex align-items-center">
+            {% if is_client %}
+              <!-- Mostrar la firma del vendedor como imagen si existe -->
+              {% if prefill['seller_signature_url'] is defined and prefill['seller_signature_url'] %}
+                <img src="{{ prefill['seller_signature_url'] }}" alt="Seller Signature" style="max-width:200px; max-height:80px; border:1px solid #ccc; background:#fff;">
+              {% else %}
+                <div style="width:200px; height:80px; border:1px solid #ccc; background:#f8f8f8; display:flex; align-items:center; justify-content:center; color:#aaa;">No signature</div>
+              {% endif %}
+            {% else %}
+              <!-- Canvas para la firma del vendedor -->
+              <div class="border rounded bg-white p-2 me-2" style="width:220px; min-width:220px;">
+                <canvas id="signature-pad" width="200" height="80" style="border:1px solid #ccc; background:#fff;"></canvas>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm mt-2" id="clear-signature">Clear</button>
+              <input type="hidden" name="seller_signature" id="seller_signature">
+              <input type="hidden" name="seller_signed_at" id="seller_signed_at" value="{{ seller_signed_at if seller_signed_at is defined else '' }}">
+            {% endif %}
+            <div id="signature-date-box" style="min-width:120px;">
+              {% if seller_signed_at %}
+                <div style="color:#0047ff; font-weight:bold; font-size:1.1em;">Signed at:</div>
+                <div style="color:#0047ff;">{{ seller_signed_at }}</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 text-start">
+          <label class="form-label">Client Signature</label>
+          <div class="d-flex align-items-center">
+            {% if is_client %}
+              <!-- Canvas para la firma del cliente -->
+              <div class="border rounded bg-white p-2 me-2" style="width:220px; min-width:220px;">
+                <canvas id="client-signature-pad" width="200" height="80" style="border:1px solid #ccc; background:#fff;"></canvas>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm mt-2" id="clear-client-signature">Clear</button>
+              <input type="hidden" name="customer_signature" id="customer_signature">
+              <input type="hidden" name="customer_signed_at" id="customer_signed_at" value="{{ customer_signed_at if customer_signed_at is defined else '' }}">
+            {% else %}
+              <!-- Mostrar la firma del cliente como imagen si existe -->
+              {% if prefill['customer_signature_url'] is defined and prefill['customer_signature_url'] %}
+                <img src="{{ prefill['customer_signature_url'] }}" alt="Client Signature" style="max-width:200px; max-height:80px; border:1px solid #ccc; background:#fff;">
+              {% else %}
+                <div style="width:200px; height:80px; border:1px solid #ccc; background:#f8f8f8; display:flex; align-items:center; justify-content:center; color:#aaa;">No signature</div>
+              {% endif %}
+            {% endif %}
+            <div id="client-signature-date-box" style="min-width:120px;">
+              {% if customer_signed_at %}
+                <div style="color:#0047ff; font-weight:bold; font-size:1.1em;">Signed at:</div>
+                <div style="color:#0047ff;">{{ customer_signed_at }}</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Submit Contract</button>
+      </div>
+
+      <!-- Signature Pad JS -->
+      <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
+      <script>
+        const isClient = {{ 'true' if is_client else 'false' }};
+        if (!isClient) {
+          // Vendedor
+          const canvas = document.getElementById('signature-pad');
+          if (canvas) {
+            const signaturePad = new SignaturePad(canvas, {
+              backgroundColor: 'rgb(255,255,255)'
+            });
+            document.getElementById('clear-signature').addEventListener('click', function() {
+              signaturePad.clear();
+              document.getElementById('seller_signed_at').value = '';
+              document.getElementById('signature-date-box').innerHTML = '';
+            });
+            document.querySelector('form').addEventListener('submit', function(e) {
+              if (!signaturePad.isEmpty()) {
+                document.getElementById('seller_signature').value = signaturePad.toDataURL();
+                // Guarda la fecha/hora actual
+                const now = new Date();
+                const formatted = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+                document.getElementById('seller_signed_at').value = formatted;
+                document.getElementById('signature-date-box').innerHTML = `<div style='color:#0047ff; font-weight:bold; font-size:1.1em;'>Signed at:</div><div style='color:#0047ff;'>${formatted}</div>`;
+              } else {
+                document.getElementById('seller_signature').value = '';
+                document.getElementById('seller_signed_at').value = '';
+                document.getElementById('signature-date-box').innerHTML = '';
+              }
+            });
+          }
+        }
+        if (isClient) {
+          // Cliente
+          const clientCanvas = document.getElementById('client-signature-pad');
+          if (clientCanvas) {
+            const clientSignaturePad = new SignaturePad(clientCanvas, {
+              backgroundColor: 'rgb(255,255,255)'
+            });
+            document.getElementById('clear-client-signature').addEventListener('click', function() {
+              clientSignaturePad.clear();
+              document.getElementById('customer_signed_at').value = '';
+              document.getElementById('client-signature-date-box').innerHTML = '';
+            });
+            document.querySelector('form').addEventListener('submit', function(e) {
+              if (!clientSignaturePad.isEmpty()) {
+                document.getElementById('customer_signature').value = clientSignaturePad.toDataURL();
+                // Guarda la fecha/hora actual
+                const now = new Date();
+                const formatted = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+                document.getElementById('customer_signed_at').value = formatted;
+                document.getElementById('client-signature-date-box').innerHTML = `<div style='color:#0047ff; font-weight:bold; font-size:1.1em;'>Signed at:</div><div style='color:#0047ff;'>${formatted}</div>`;
+              } else {
+                document.getElementById('customer_signature').value = '';
+                document.getElementById('customer_signed_at').value = '';
+                document.getElementById('client-signature-date-box').innerHTML = '';
+              }
+            });
+          }
+        }
+      </script>
+    </form>
+  </div>
+</body>
+</html>

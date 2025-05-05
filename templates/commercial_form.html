@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Commercial Submission</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .alert-success {
+      background-color: #00bcd4 !important;
+      color: #fff !important;
+      border: none !important;
+    }
+  </style>
+</head>
+<body class="p-4" style="background-color: #0a0a0a;">
+  <div class="container shadow rounded p-4" style="max-width: 700px; margin-top: 30px; background: #111; color: #fff;">
+    <div class="text-center mb-4">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Company Logo" style="height: 100px; margin-bottom: 10px;">
+      <h2 class="mb-2" style="font-weight: 700; letter-spacing: 1px; color: #f3f6f7;">Commercial Submission Form</h2>
+      <hr class="mb-4" style="border-color: #00bcd4; border-width: 2px;">
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-weight: bold; font-size: 1.1em;">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <!-- Company and Property Address Section -->
+      <h4 class="mt-4 mb-3" style="color: #f5f7f8;">Company & Property Information</h4>
+      <div class="mb-3">
+        <label for="company_name" class="form-label">Company Name</label>
+        <input type="text" class="form-control" id="company_name" name="company_name" required>
+      </div>
+      <div class="mb-3">
+        <label for="address_line" class="form-label">Property Address</label>
+        <input type="text" class="form-control" id="address_line" name="address_line" placeholder="Street Address, Apt/Suite, City, State" required>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="city" class="form-label">City</label>
+          <input type="text" class="form-control" id="city" name="city">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="state" class="form-label">State</label>
+          <select class="form-select" id="state" name="state" required>
+            <option value="">Select a state</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="zip" class="form-label">Zip Code</label>
+          <input type="text" class="form-control" id="zip" name="zip">
+        </div>
+      </div>
+
+      <!-- Building Owner Info Section -->
+      <h4 class="mt-4 mb-3" style="color: #fcfdff;">Building Owner</h4>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="building_owner" class="form-label">Building Owner Name</label>
+          <input type="text" class="form-control" id="building_owner" name="Building Owner">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="owner_email" class="form-label">Building Owner Email</label>
+          <input type="email" class="form-control" id="owner_email" name="owner_email">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="owner_phone" class="form-label">Building Owner Phone</label>
+          <input type="tel" class="form-control" id="owner_phone" name="owner_phone">
+        </div>
+      </div>
+
+      <!-- Point of Contact Section -->
+      <h4 class="mt-4 mb-3" style="color: #f2f5f8;">Point of Contact</h4>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="point_of_contact" class="form-label">Point of Contact Name</label>
+          <input type="text" class="form-control" id="point_of_contact" name="Point of Contact">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="point_of_contact_phone" class="form-label">Point of Contact Phone</label>
+          <input type="tel" class="form-control" id="point_of_contact_phone" name="Point of Contact Phone">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="point_of_contact_email" class="form-label">Point of Contact Email</label>
+          <input type="email" class="form-control" id="point_of_contact_email" name="Point of Contact Email">
+        </div>
+      </div>
+
+      <!-- Representative Info Section -->
+      <h4 class="mt-4 mb-3" style="color: #e0f7fa;">Representative Info</h4>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="rep_name" class="form-label">Representative Name</label>
+          <input type="text" class="form-control" id="rep_name" name="rep_name">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="rep_phone" class="form-label">Representative Phone</label>
+          <input type="tel" class="form-control" id="rep_phone" name="rep_phone" required>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="rep_email" class="form-label">Representative Email</label>
+          <input type="email" class="form-control" id="rep_email" name="rep_email">
+        </div>
+      </div>
+
+      <!-- Contact Status -->
+      <h4 class="mt-4 mb-3" style="color: #eff3f7;">Internal Filters</h4>
+      <div class="mb-3">
+        <label class="form-label">Client Communication</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="contact_status" id="status_yes" value="Sounds great, we're all on the same team!" checked>
+          <label class="form-check-label" for="status_yes">Sounds great, we're all on the same team!</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="contact_status" id="status_no" value="Do not contact this client">
+          <label class="form-check-label" for="status_no">Do not contact this client</label>
+        </div>
+      </div>
+
+      <!-- Sales Info -->
+      <h4 class="mt-4 mb-3" style="color: #f7f8fa;">Sales Information</h4>
+      <div class="mb-3">
+        <label for="salesperson" class="form-label">Salesperson</label>
+        <select class="form-select" id="salesperson" name="salesperson" required>
+          <option value="8587790789">Joseph Matthews</option>
+          <option value="8587808948">Matthew Thompson</option>
+          <option value="8609892815">Angela Smith</option>
+          <option value="8609902537">Tiffany Gilmore</option>
+          <option value="8610884564">Dereck Gonzalez</option>
+          <option value="8620494009">Jeremy Watson</option>
+          <option value="8646728843">Jeremy Watson</option>
+          <option value="8691944781">Howard Hellwig</option>
+          <option value="8694788845">Louis Jimenez</option>
+          <option value="8727730278">Jeff Gipe</option>
+          <option value="8741999457">Robert Bruce-Stelmach</option>
+          <option value="8767778174">Michael Wenger</option>
+          <option value="8767826326">Jenni White</option>
+          <option value="8789024237">Karina Rubio</option>
+          <option value="8790386730">Karleigh Williamson</option>
+          <option value="8790404060">Varun Kohli</option>
+          <option value="8790456942">Jimmie Mallett</option>
+          <option value="8790473565">Daniel Zapata</option>
+          <option value="8790502798">Devaughdric Ross</option>
+          <option value="8806520434">Jessica Rubio</option>
+          <option value="8812612493">Tyler Cardarella-Gasper</option>
+          <option value="8867840407">Nathan Moy</option>
+          <option value="8901202426">Trevor Howe</option>
+          <option value="8916782485">Rufus Lowe</option>
+          <option value="8921070236">Dalton Henderson</option>
+          <option value="8946303374">omar</option>
+          <option value="8948613166">Brent Davidson</option>
+          <option value="8949341550">Mihai Calin</option>
+          <option value="8962382247">Jeremy Sisson</option>
+          <option value="8965671175">Dave Jantzi</option>
+          <option value="8966419907">Tony Chitty</option>
+          <option value="8969187828">Jamezz Hampton</option>
+          <option value="8969376704">Shanna Harder</option>
+          <option value="8969654150">Wesley Miller</option>
+          <option value="8970121684">Samuel Mburu</option>
+          <option value="8970175340">David Brown</option>
+          <option value="8970184728">Quinton Dillard</option>
+          <option value="8976701613">Octavio Dikin</option>
+          <option value="8976742409">Imma Curl</option>
+          <option value="8979283154">Jose Hernandez</option>
+          <option value="8982546027">Kevin Grelle</option>
+          <option value="8988366449">Sergio Hernandez Gonzalez</option>
+          <option value="8988967596">Brandi Polk</option>
+          <option value="8989357619">Omar Solis</option>
+          <option value="8990094306">robin jesk</option>
+          <option value="8990348011">Mitchell Oestreich</option>
+          <option value="8992845966">diego fernandez</option>
+          <option value="8997894953">desiree andujar</option>
+          <option value="8999289173">Ramon Seton</option>
+          <option value="8999978907">David Harter</option>
+          <option value="9001969606">Justin Hafner</option>
+          <option value="9002935018">Timothy Fetterhoff</option>
+          <option value="9017795039">Victor Pizana</option>
+          <option value="9019113928">Briyonna Hunter</option>
+          <option value="9019149157">Dusty Rucker</option>
+          <option value="9019229204">Jacob Snider</option>
+          <option value="9021857588">Flecia Key</option>
+          <option value="9025051564">Maria Mata</option>
+          <option value="9025499318">Josue Majano</option>
+          <option value="9028498261">Angel Santiago</option>
+          <option value="9029735254">Angel Santiago</option>
+          <option value="9031247255">Terry Ashe</option>
+          <option value="9032909365">devin tanter</option>
+          <option value="9040031368">Julian Baca</option>
+          <option value="9048362820">Samuel Vansiea</option>
+          <option value="9049139583">Jadon Perry</option>
+          <option value="9049204164">Patrick Malone</option>
+          <option value="9049699339">John Cooper</option>
+          <option value="9051180276">Jesse Lopez</option>
+          <option value="9056576458">Damzel Harding</option>
+          <option value="9056580447">Kunta Harris</option>
+          <option value="9056700382">Scott Steinmetz</option>
+          <option value="9056713417">Kwanisha Wilburn</option>
+          <option value="9056741905">Scott Steinmetz</option>
+          <option value="9056768906">Scott Steinmetz</option>
+          <option value="8249150181">Brandi Miller</option>
+          <option value="8239353461">Spencer Little</option>
+          <option value="8239324766">Kent Sampler</option>
+          <option value="8771092125">Keenan Mathis</option>
+          <option value="8822923101">Stanlee Etienne</option>
+          <option value="8921139732">Kevin Pinson</option>
+          <option value="8408292159">Sarah Wilson</option>
+          <option value="8455985607">Amber Absten</option>
+          <option value="8387699596">Joel Jordan</option>
+          <option value="8508176382">Franklin Agunanne</option>
+          <option value="8508045979">Alan Akilkhanov</option>
+          <option value="8455999850">Kalin Reeves</option>
+          <option value="8531207940">Jonathan Henley</option>
+          <option value="8244317567">Tony Burwell</option>
+          <option value="8276386824">Yadi Figueroa</option>
+          <option value="8241197928">Josh Alfaro</option>
+          <option value="8322928989">Carlos Jimenez</option>
+          <option value="8241208564">Hugo Basulto</option>
+          <option value="8314867187">Josh Joy</option>
+          <option value="8331925814">Kimberly Johnson</option>
+          <option value="8324957494">Skylynn Abu-Lughod</option>
+          <option value="8241329933">Ramon "RJ"  Torres</option>
+          <option value="8290053822">Anisten Clack</option>
+          <option value="8290072865">Shane Grincewicz</option>
+          <option value="8241402034">Kheemlah Phillips</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" style="color: #f0f4f8;">What type of roof does the building have?</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="roof_type" id="roof_flat" value="Flat" checked>
+          <label class="form-check-label" for="roof_flat">Flat</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="roof_type" id="roof_pitched" value="Pitched">
+          <label class="form-check-label" for="roof_pitched">Pitched</label>
+        </div>
+      </div>
+
+      <!-- Commercial Status (dropdown) -->
+      <div class="mb-3">
+        <label for="status_mkn8wdk2" class="form-label" style="color: #f4f5f7;">Commercial Status</label>
+        <select class="form-select" id="status_mkn8wdk2" name="status_mkn8wdk2" required>
+          <option value="AirNation">AirNation</option>
+          <option value="D2D">D2D</option>
+          <option value="Solar">Solar</option>
+          <option value="RM File">RM File</option>
+        </select>
+      </div>
+
+      <!-- Campos ocultos para labels de CompanyCam -->
+      <input type="hidden" name="companycam_source_label" id="companycam_source_label">
+      <input type="hidden" name="companycam_roof_label" id="companycam_roof_label">
+      <input type="hidden" name="companycam_property_label" id="companycam_property_label">
+
+      <!-- Submit -->
+      <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+    <script>
+      // Mapeos de valores del formulario a labels exactos de CompanyCam
+      const sourceMap = {
+        'D2D': 'D2D Inspection',
+        'Solar': 'Solar',
+        'AirNation': 'AirNation',
+        'Commercial': 'Commercial',
+        'Local': 'Local',
+        'Partners': 'Partners',
+        'Prospect': 'Prospect',
+        'Roadtrip': 'Roadtrip',
+        'Shingle': 'Shingle',
+        'Team Amanda': 'Team Amanda',
+        'Team Cilia': 'Team Cilia',
+        'Team Yadi': 'Team Yadi',
+        'Valdosta Office': 'Valdosta Office',
+        'Omaha Office': 'Omaha Office',
+        'Paid': 'Paid',
+        'Resi': 'Resi',
+        'RM Import': 'Import From RM',
+        'San Antonio Office': 'San Antonio Office',
+        'Tampa Office': 'Tampa Office',
+        'Team Amber': 'Team Amber',
+        'Team Heather': 'Team Heather',
+        'Team Jenni': 'Team Jenni',
+        'Team Karina': 'Team Karina',
+        'Team Louis': 'Team Louis',
+        'Team Michael': 'Team Michael',
+        'Team Tiffany': 'Team Tiffany',
+        'Team Tyler': 'Team Tyler',
+        'Team Varun': 'Team Varun',
+        'Team Zach': 'Team Zach',
+        'Test': 'Test',
+        'Flat': 'Flat',
+        'Pitched': 'Pitched',
+        'Metal': 'Metal',
+        'Farm Metal': 'Farm Metal',
+        'Manual': 'Manual',
+        'Bid': 'Bid',
+        'Lead': 'Lead',
+        'Active': 'Active',
+        'In Progress': 'In Progress',
+        'Complete': 'Complete',
+        'Cancelled': 'Cancelled',
+        'Important': 'Important',
+        'Approved': 'Approved',
+        'AccuLynx': 'AccuLynx',
+        'Dallas Office': 'Dallas Office',
+        'Denver Office': 'Denver Office',
+        'Indy Office': 'Indy Office',
+        'KC Office': 'KC Office',
+        'Naples / Fort Meyers Office': 'Naples / Fort Meyers Office',
+        'OKC Office': 'OKC Office',
+        'Orlando Office': 'Orlando Office',
+        'St Louis Office': 'St Louis Office',
+        'Jacksonville  Office': 'Jacksonville  Office',
+        'Atlanta Office': 'Atlanta Office',
+        'Austin Office': 'Austin Office'
+      };
+      const roofMap = {
+        'Flat': 'Flat',
+        'Pitched': 'Pitched',
+        'Metal': 'Metal',
+        'Farm Metal': 'Farm Metal'
+      };
+      const propertyMap = {
+        'Commercial': 'Commercial',
+        'Residential': 'Residential'
+      };
+      document.querySelector('form').addEventListener('submit', function(e) {
+        // Asigna los labels mapeados a los campos ocultos
+        const sourceVal = document.getElementById('status_mkn8wdk2') ? document.getElementById('status_mkn8wdk2').value : '';
+        const roofVal = document.querySelector('input[name="roof_type"]:checked') ? document.querySelector('input[name="roof_type"]:checked').value : '';
+        const propertyVal = document.getElementById('status_mkn81f2b') ? document.getElementById('status_mkn81f2b').value : '';
+        document.getElementById('companycam_source_label').value = sourceMap[sourceVal] || '';
+        document.getElementById('companycam_roof_label').value = roofMap[roofVal] || '';
+        document.getElementById('companycam_property_label').value = propertyMap[propertyVal] || '';
+      });
+      // Cierre de alertas personalizadas
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.alert .btn-close').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            btn.closest('.alert').style.display = 'none';
+          });
+        });
+      });
+    </script>
+  </div>
+</body>
+</html>

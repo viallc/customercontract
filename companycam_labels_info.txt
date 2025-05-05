@@ -1,0 +1,43 @@
+Resumen sobre Labels y Badges en CompanyCam (API e Interfaz)
+============================================================
+
+1. ¿Cómo funcionan los labels/badges en CompanyCam?
+---------------------------------------------------
+- Los "badges" que ves en la interfaz de CompanyCam son simplemente labels (etiquetas) que han sido configurados para mostrarse visualmente en la cuenta.
+- No existe un endpoint ni parámetro especial para "badges" diferente de los labels normales en la API.
+- La API permite asignar labels a un proyecto usando el endpoint `/v2/projects/{project_id}` con el campo `labels` (array de IDs).
+
+2. ¿Por qué Jotform sí los muestra como badges?
+-----------------------------------------------
+- Jotform probablemente está usando los mismos endpoints, pero los labels que asigna ya están configurados en tu cuenta de CompanyCam para mostrarse como badges.
+- Si un label está marcado como "visible" o "badge" en la configuración de tu cuenta, cualquier integración (incluida la tuya) que asigne ese label hará que se muestre como badge.
+
+3. ¿Qué debes hacer para que tus labels se vean como badges?
+------------------------------------------------------------
+- Debes ir a la configuración de labels en tu cuenta de CompanyCam (desde la web, como admin) y asegurarte de que los labels que usas ("D2D Inspection", "Flat", etc.) estén configurados para mostrarse como badges.
+- Si el label existe pero no se muestra como badge, edítalo y marca la opción de "mostrar como badge" o "visible" (el nombre puede variar según la interfaz).
+- No necesitas cambiar nada en tu integración: una vez el label esté configurado como badge, cualquier proyecto al que lo asignes (vía API o manualmente) lo mostrará visualmente.
+
+4. Pasos recomendados:
+----------------------
+1. Entra a CompanyCam (web, como admin).
+2. Ve a la sección de configuración de labels/tags/badges.
+3. Busca los labels que usas en tu integración ("D2D Inspection", "Flat", etc.).
+4. Activa la opción de "mostrar como badge" o similar para cada uno.
+5. Guarda los cambios.
+6. Haz una nueva prueba desde tu integración: los badges deberían aparecer visualmente.
+
+5. ¿Qué hacer si no ves la opción de "badge" en la configuración?
+-----------------------------------------------------------------
+- Puede depender del plan de tu cuenta o de permisos de usuario. Si no ves la opción, contacta a soporte de CompanyCam y explícales que necesitas que ciertos labels se muestren como badges visuales cuando se asignan vía API.
+
+6. Recursos útiles:
+-------------------
+- [API Reference - Projects](https://docs.companycam.com/reference/createproject)
+- [API and Custom Integrations | Help Center - CompanyCam](https://help.companycam.com/en/articles/6828353-api-and-custom-integrations)
+
+7. Resumen final:
+-----------------
+- La integración técnica está funcionando: los labels se asignan correctamente vía API.
+- La visualización como badge depende de la configuración interna de CompanyCam, no de la API.
+- Si necesitas ayuda para contactar a soporte o para una guía visual, puedes pedirlo. 

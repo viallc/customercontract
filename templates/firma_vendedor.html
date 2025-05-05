@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Seller Signature</title>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <style>
+    canvas { border: 1px solid #000; }
+  </style>
+</head>
+<body class="p-4">
+  <h2>Seller Signature</h2>
+  <p>Please sign below to authorize the contract generation:</p>
+
+  <form method="post">
+    <canvas id="signature-pad" width="400" height="200"></canvas>
+    <input type="hidden" name="signature" id="signature-data">
+    <br><br>
+    <button type="submit">Submit Signature</button>
+  </form>
+
+  <script>
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas);
+    document.querySelector('form').addEventListener('submit', () => {
+      document.getElementById('signature-data').value = signaturePad.toDataURL();
+    });
+  </script>
+</body>
+</html>

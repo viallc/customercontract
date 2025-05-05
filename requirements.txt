@@ -1,3 +1,6 @@
 Flask==2.3.2
 requests==2.31.0
 gunicorn==21.2.0
+PyMuPDF==1.23.7
+fpdf==1.7.2
+requests==2.31.0
